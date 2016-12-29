@@ -104,42 +104,32 @@ var homeOfficeInfo = [
             videoLetterboxed: false
         },
         {
-            name: 'Oakland',
-            beachID: 4127,
-            weatherID: 5354943,
-            lat: 37.8066025,
-            lon: -122.2711768,
-            transit: 'BICYCLING',
+            name: 'Oceanside',
+            beachID: 4789,
+            weatherID: 5378771,
+            lat: 34.0626624,
+            lon: -118.3641838,
+            transit: 'DRIVING',
             gnarMultiplyer: 2,
             videoLetterboxed: false
         },
         {
-            name: 'Los Angeles',
-            beachID: 4209, //119811
-            weatherID: 5369909,
+            name: 'Singapore',
+            beachID: 7214,
+            weatherID: 1642467,
+            lat: 1.2807448,
+            lon: 103.8437414,
+            transit: 'DRIVING',
+            gnarMultiplyer: 2,
+            videoLetterboxed: false
+        },
+        {
+            name: 'Pipeline',
+            beachID: 131975,
+            weatherID: 5852824,
             lat: 34.0626624,
             lon: -118.3641838,
-            transit: 'BICYCLING',
-            gnarMultiplyer: 1,
-            videoLetterboxed: false
-        },
-        {
-            name: 'Portland',
-            beachID: 5073,
-            weatherID: 5742750,
-            lat: 45.5190225,
-            lon: -122.6664673,
             transit: 'DRIVING',
-            gnarMultiplyer: 2.4,
-            videoLetterboxed: false
-        },
-        {
-            name: 'London',
-            beachID: 134367,
-            weatherID: 2655095,
-            lat: 51.5218759,
-            lon: -0.087129,
-            transit: 'TRANSIT',
             gnarMultiplyer: 2,
             videoLetterboxed: false
         }
