@@ -89,7 +89,7 @@ var homeOfficeInfo = [
         {
             measurements: 'english',
             timeZoneCode: -5,
-            random: false
+            random: true
         }
     ],
     officeLoc = [
