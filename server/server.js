@@ -14,8 +14,7 @@ server.listen(3000);
 
 var currentSecondScreenURL = null;
 
-var staticPath = path.resolve(__dirname + '/../huge-tv-html/')
-var videoPath = path.resolve(__dirname + '/../huge-tv-videos/')
+var staticPath = path.resolve(__dirname + '/../html/')
 
 app.use(cors());
 app.use(express.static(staticPath));
