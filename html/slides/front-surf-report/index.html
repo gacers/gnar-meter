@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- <link rel="stylesheet" href="../../css/h-styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="../../css/fonts/fonts.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/video-js.min-5.8.8.css">
+    <script type="text/javascript" src="../../js/lib/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/video-js-5.0.2.js"></script>
+
+    <!-- hls plugin for video.js: https://github.com/Peer5/videojs-contrib-hls.js -->
+    <script type="text/javascript" src="js/videojs-contrib-hls-3.1.5.js"></script>
+
+    <script type="text/javascript" src="js/URI.js"></script>
+    <!-- // <script type="text/javascript" src="js/github-afeld-jsonp-v0.3.1.js"></script> -->
+    <script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>
+</head>
+
+<body>
+    <div class="panel" id="panel">
+        <div class="wrapper">
+            <div id="wave-height">
+              <p>Wave Height</p>
+              <h2 class="data" id="waveHeightData"></h2>
+            </div>
+
+            <div id="temperature">
+              <p>Temperature</p>
+              <h2 class="data" id="temp"></h2>
+            </div>
+
+            <div id="sunrise">
+              <p>Sunrise</p>
+              <h2 class="data" id="sunriseData"></h2>
+            </div>
+
+            <div id="sunset">
+              <p>Sunset</p>
+              <h2 class="data" id="sunsetData"></h2>
+            </div>
+
+            <div class="all-the-stokes">
+                <div class="shaka-meter">
+                    <p class="title">GnarMeter&trade;</p>
+
+                    <ul>
+                        <li>The gnar is totally harshing my vibes</li>
+                        <li>The gnar totally does not have me stoked</li>
+                        <li>The gnar has totally awaken</li>
+                        <li>The gnar is totally calling my name!</li>
+                        <li>The gnar is the definition of gnarly!</li>
+                    </ul>
+                </div>
+
+                <div class="visualization-container">
+                    <div class="map-container">
+                        <p class="title" id="office-title">Geo-gnar-cation&trade;</p>
+
+                        <div class="map-wrapper">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <p class="title">24Hr-gnar-cast&trade;</p>
+
+                        <div class="chart-wrapper">
+                            <canvas id="gnarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-wrapper">
+      <video id="videoId" class="video-js vjs-default-skin" controls preload="auto"></video>
+    </div>
+
+    <img class="fullscreen-image" id="poster" src="http://camstills.cdn-surfline.com/lincolnfixedcam/latest_small.jpg"/>
+
+    <div id="shred-the-gnar">
+        <canvas id="shred-the-gnar-canvas"></canvas>
+
+        <div class="call-to-shred">
+            <h1 class="call-to-shred-text"><span id="shred-location"></span> Time to <i>Shred!!!!!!!</i></h1>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPTAFTkBl-EBJZNxqoAvSiYsoBcm0fXGY"></script>
+    <script src="js/particleEngine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

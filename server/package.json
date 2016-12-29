@@ -1,0 +1,21 @@
+{
+  "name": "huge-tv-server",
+  "version": "0.0.1",
+  "author": "Micah Acinapura <macinapura@hugeinc.com>",
+  "description": "server for office tv related data",
+  "scripts": {
+    "start": "forever ./server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.0",
+    "cors": "^2.7.1",
+    "express": "~4.13.4",
+    "googleapis": "^2.1.1",
+    "moment": "^2.10.6",
+    "request": "^2.60.0",
+    "socket.io": "~1.4.5",
+    "spotify-web-api-js": "^0.21.1",
+    "spotify-web-api-node": "^2.3.6",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
