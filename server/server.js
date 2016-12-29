@@ -6,7 +6,6 @@ var path = require('path');
 var calendar = require('./huge-calendars');
 var cors = require('cors');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var SpotifyWebApi = require('spotify-web-api-node');
 
 var calendarCache = {};
 
@@ -39,38 +38,6 @@ app.all('/config.js', function (req, res) {
 		configPath += "/config.master.js";
 	}
 	res.sendFile(configPath);
-});
-
-app.all('/spotify/auth', function (req, res) {
-    var spotifyApi = new SpotifyWebApi(req.query.credentials);
-    // var authorizeURL = spotifyApi.createAuthorizeURL(req.query.scope);
-    // var code = 'MQCbtKe23z7YzzS44KzZzZgjQa621hgSzHN';
-
-    spotifyApi.clientCredentialsGrant().then(function(data) {
-        spotifyApi.setAccessToken(data.body['access_token']);
-
-        res.send({"token":data.body});
-    }, function(err) {
-        console.log('Something went wrong when retrieving an access token', err);
-    });
-});
-
-app.all('/spotify/me', function (req, res) {
-  // console.log(req.query.token)
-  // console.log(req.query.cred)
-  var spotifyApi = new SpotifyWebApi(req.query.cred);
-  spotifyApi.setAccessToken(req.query.token);
-console.log(req.query)
-
-  spotifyApi.getPlaylist(req.query.user, req.query.playlist)
-  .then(function(data) {
-    res.send({"token":data.body});
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-
-
 });
 
 
@@ -110,7 +77,7 @@ app.all('/calendar/:calendarid', function (req, res){
 
 
 //ADD NEW CONFIGS/SCREEN TYPES HERE
-var routes = ["master", "george", "calendar", "local", "front"];
+var routes = ["front"];
 
 for (var i = 0; i < routes.length; ++i) {
 	var route = routes[i];
