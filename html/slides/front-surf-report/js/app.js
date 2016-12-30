@@ -129,8 +129,18 @@ var homeOfficeInfo = [
             weatherID: 5852824,
             lat: 34.0626624,
             lon: -118.3641838,
-            transit: 'DRIVING',
+            transit: false,
             gnarMultiplyer: 2,
+            videoLetterboxed: false
+        },
+        {
+            name: 'Portland',
+            beachID: 5073,
+            weatherID: 5742750,
+            lat: 45.5190225,
+            lon: -122.6664673,
+            transit: 'DRIVING',
+            gnarMultiplyer: 2.4,
             videoLetterboxed: false
         }
     ],
@@ -1054,6 +1064,42 @@ function makeMarker(position, icon, name) {
         title: name
     });
 }
+
+// function map(latCoord, lonCoord) {
+//     var gmap,
+//         mapOptions = {
+//             disableDefaultUI: true,
+//             scrollwheel: false
+//         },
+//         beachLatLng = {
+//             lat: latCoord,
+//             lon: lonCoord
+//         };
+
+//     var gmap = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+//     var bounds = new google.maps.LatLngBounds();
+
+//      var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|ec008c")
+
+//     var markers = [
+//         ['https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', latCoord, lonCoord],
+//         [pinImage, officeLoc[beach].lat, officeLoc[beach].lon]
+//     ];
+
+//     for( i = 0; i < markers.length; i++ ) {
+//         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+
+//         bounds.extend(position);
+//         marker = new google.maps.Marker({
+//             position: position,
+//             map: gmap,
+//             icon: markers[i][0]
+//         });
+
+//         // Automatically center the map fitting all markers on the screen
+//         gmap.fitBounds(bounds);
+//     }
 
 /**
 *   Brah, where the ganr becomes reality
