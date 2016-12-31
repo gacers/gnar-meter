@@ -74,7 +74,7 @@ h1 {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     box-sizing: border-box;
-    font-family: "Huge Avant Garde";
+    font-family: "HUGEAvantGardeBold";
     font-size: 11vw;
     left: 50%;
     margin: 0;
@@ -222,7 +222,7 @@ h1 {
 h2 {
     color: #fff;
     font-size: 4.5vh;
-    font-family: "Huge Avant Garde";
+    font-family: "HUGEAvantGardeBold";
     font-weight: bolder;
     letter-spacing: 2px;
     line-height: 1.2;
