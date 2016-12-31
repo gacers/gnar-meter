@@ -74,7 +74,7 @@ h1 {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     box-sizing: border-box;
-    font-family: "HUGEAvantGardeBold";
+    font-family: "Huge Avant Garde";
     font-size: 11vw;
     left: 50%;
     margin: 0;
@@ -222,7 +222,7 @@ h1 {
 h2 {
     color: #fff;
     font-size: 4.5vh;
-    font-family: "HUGEAvantGardeBold";
+    font-family: "Huge Avant Garde";
     font-weight: bolder;
     letter-spacing: 2px;
     line-height: 1.2;
@@ -346,9 +346,57 @@ p {
   width: 100%;
 }
 
+.visualization-container .map-title {
+    margin-bottom: 15px;
+    padding-bottom: 25px;
+    position: relative;
+    text-align: center;
+}
+
+.visualization-container .map-title .title {
+    display: inline-block;
+    left: 0;
+    margin-bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+
+#office-title {
+    animation: officeTitle 40s linear infinite;
+    opacity: 1;
+}
+
+#beach-title {
+    animation: beachTitle 40s linear infinite;
+    opacity: 0;
+}
+
+@keyframes officeTitle {
+    0%, 48% {
+        opacity: 1;
+    }
+
+    52%, 98% {
+        opacity: 0;
+    }
+}
+
+@keyframes beachTitle {
+    0%, 48% {
+        opacity: 0;
+    }
+
+    52%, 98% {
+        opacity: 1;
+    }
+}
+
 .visualization-container .title {
     margin-bottom: 15px;
-    text-align: center
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .visualization-container:after {

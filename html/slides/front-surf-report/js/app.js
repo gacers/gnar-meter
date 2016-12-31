@@ -1,4 +1,11 @@
 /**
+*   To overwrite the variables below and not have them overwritten when code is
+*   updated, create an js/overwites.js file and and copy the global variables
+*   into that file.  Once copied you can edit the homeOfficeInfo, offices, etc.
+*   Uncomment the overwrites.js file at the bottom of index.html.
+*
+*
+*
 *   Raddest global variables
 *
 *   homeOfficeInfo:
@@ -6,10 +13,6 @@
 *       If your home office is in the US, set to english, outside set to metric.
 *       Tells the beach api what units to display and the weather api how to
 *       convert the Kelvin.
-*
-*   timeZoneCode:
-*       Appropriate time zone code for your office.  Adjust the sunrise and sunset
-*       times to their appropriate local time. (May change depending on DST)
 *
 *   random: true, false
 *   Location orders can be randomized or go through the list according to object
@@ -76,20 +79,24 @@
 *       shredAlertColor()
 *       waveChart()
 *       beachCam()
+*       editTime()
+*       hourAdjust()
+*       formatTime()
+*       sunInfo()
 *       weatherInfo()
-*       humanTimeFromUnixTime()
 *       mapOptions()
 *       buildMap()
+*       makeMarker()
+*       directionsFallback()
 *       routeOptions()
 *       buildRoute()
-*       makeMarker()
 *       shakaParticles()
 */
+
 var homeOfficeInfo = [
         {
             measurements: 'english',
-            timeZoneCode: -8,
-            random: true
+            random: false
         }
     ],
     officeLoc = [
@@ -104,33 +111,23 @@ var homeOfficeInfo = [
             videoLetterboxed: false
         },
         {
-            name: 'Oceanside',
-            beachID: 4789,
-            weatherID: 5378771,
-            lat: 34.0626624,
-            lon: -118.3641838,
-            transit: 'DRIVING',
+            name: 'Oakland',
+            beachID: 4127,
+            weatherID: 5354943,
+            lat: 37.8066025,
+            lon: -122.2711768,
+            transit: 'BICYCLING',
             gnarMultiplyer: 2,
             videoLetterboxed: false
         },
         {
-            name: 'Singapore',
-            beachID: 7214,
-            weatherID: 1642467,
-            lat: 1.2807448,
-            lon: 103.8437414,
-            transit: 'DRIVING',
-            gnarMultiplyer: 2,
-            videoLetterboxed: false
-        },
-        {
-            name: 'Pipeline',
-            beachID: 131975,
-            weatherID: 5852824,
+            name: 'Los Angeles',
+            beachID: 4209, //119811
+            weatherID: 5369909,
             lat: 34.0626624,
             lon: -118.3641838,
-            transit: false,
-            gnarMultiplyer: 2,
+            transit: 'BICYCLING',
+            gnarMultiplyer: 1,
             videoLetterboxed: false
         },
         {
@@ -141,6 +138,16 @@ var homeOfficeInfo = [
             lon: -122.6664673,
             transit: 'DRIVING',
             gnarMultiplyer: 2.4,
+            videoLetterboxed: false
+        },
+        {
+            name: 'London',
+            beachID: 134367,
+            weatherID: 2655095,
+            lat: 51.5218759,
+            lon: -0.087129,
+            transit: 'TRANSIT',
+            gnarMultiplyer: 2,
             videoLetterboxed: false
         }
     ],
@@ -169,7 +176,6 @@ var homeOfficeInfo = [
     transit,
     videoLetterboxed,
     timeZone,
-    timeZoneCode,
     gmap,
     directionsService,
     directionsDisplay,
@@ -177,7 +183,18 @@ var homeOfficeInfo = [
     heightUnit,
     surflineVar,
     surfMax,
-    isRandom;
+    isRandom,
+    overwrites;
+
+/**
+*   Brah, if js/overwrites.js exist and is totally populated, overwrite default
+*   values to ensure the gnarliest meter to meet your needs
+*/
+if (overwrites) {
+    Object.keys(overwrites).forEach(function(key) {
+        window[key] = overwrites[key];
+    });
+}
 
 /**
 *   Trigger choka functions
@@ -218,7 +235,6 @@ function setGlobalVariables() {
     officeLonCoord = officeLoc[beach].lon;
     transit = officeLoc[beach].transit;
     videoLetterboxed = officeLoc[beach].videoLetterboxed;
-    timeZoneCode = homeOfficeInfo[0].timeZoneCode;
     measurements = homeOfficeInfo[0].measurements;
 
     if (measurements === english) {
@@ -317,7 +333,7 @@ function waveInfo() {
         dataType: "jsonp",
         success: function(responseData) {
             surfMax = responseData.Surf.surf_max[0];
-            timeZone = Number(responseData.timezone);
+            timeZone = responseData.timeZoneString;
             beachName = responseData.Location.tide_location;
 
             console.log(responseData);
@@ -418,6 +434,7 @@ function gnarMeterData(gnar) {
 
     document.getElementById('shred-location').innerHTML = officeName;
     document.getElementById('office-title').innerHTML = officeName + ' Office';
+    document.getElementById('beach-title').innerHTML = beachName;
 
     gnarMeter(gnar, gnarRates)
 }
@@ -598,6 +615,62 @@ function beachCam() {
 }
 
 /**
+ *    Yo brah, get rid of those dank ass extra characters we don't need in the
+ *    time response
+ */
+function editTime(time) {
+    var timeFormat = time.match(/[^:]+(\:[^:]+)?/g)[0];
+
+    return timeFormat;
+}
+
+/**
+*   Converts hour from military time (Brah, i'll shred in cleveland before joing
+*   the army!!!!!)
+*/
+function hourAdjust(hour) {
+    if (hour > 12) {
+        return hour - 12;
+    } else {
+        return hour;
+    }
+}
+
+/**
+ *    Yo dude, let's get that time in a more readable, bitchin format
+ */
+function formatTime(time) {
+    var initialFormat = time.tz(timeZone).format().split('T')[1],
+        timeTrim = initialFormat.match(/[^:]+(\:[^:]+)?/g)[0],
+        hour = hourAdjust(Number(timeTrim.split(':')[0])),
+        min = timeTrim.split(':')[1];
+
+    return hour + ':' + min;
+}
+
+/**
+ *    Duuuuude, get some gnarly sun data and format it to the proper time zone
+ */
+function sunInfo() {
+    $.ajax({
+        url: "http://api.sunrise-sunset.org/json?lat=" + beachLatCoord + "&lng=" + beachLonCoord + "&date=today&formatted=0",
+        type: "GET",
+        dataType: "jsonp",
+        success: function(responseData) {
+            var baseZone = "Europe/London",
+                date = responseData.results.sunrise.split('T')[0],
+                sunrise = editTime(responseData.results.sunrise.split('T')[1]),
+                sunset = editTime(responseData.results.sunset.split('T')[1]),
+                sunriseFormat = formatTime(moment.tz(date + ' ' + sunrise, baseZone)),
+                sunsetFormat = formatTime(moment.tz(date + ' ' + sunset, baseZone));
+
+            document.getElementById('sunriseData').innerHTML = sunriseFormat + '<span>am</span>';
+            document.getElementById('sunsetData').innerHTML = sunsetFormat + '<span>pm</span>';
+        }
+    });
+}
+
+/**
 *   Get that clean weather based off of weatherID
 *   Dude, get the sunrise and sunset
 *   Get Lat and Lon of beach
@@ -610,9 +683,7 @@ function weatherInfo() {
         type: "GET",
         dataType: "jsonp",
         success: function(responseData) {
-            var sunrise = humanTimeFromUnixTime(responseData.sys.sunrise),
-                sunset = humanTimeFromUnixTime(responseData.sys.sunset),
-                tempData = responseData.main.temp,
+            var tempData = responseData.main.temp,
                 temp;
 
             if (measurements === metric) {
@@ -622,39 +693,17 @@ function weatherInfo() {
             }
 
             document.getElementById('temp').innerHTML = temp + '&deg;' + tempUnit;
-            document.getElementById('sunriseData').innerHTML = sunrise + '<span>am</span>';
-            document.getElementById('sunsetData').innerHTML = sunset + '<span>pm</span>';
 
             beachLatCoord = responseData.coord.lat;
             beachLonCoord = responseData.coord.lon;
 
+            sunInfo();
             mapOptions();
         }, //end success
         error: function(err) {
             console.log("ERR", err);
         }
     });
-}
-
-/**
-*   Converts Unix time into readable time (Brah, who uses unix?!?!)
-*   Converts time from military time (Brah, i'll shred in cleveland before joing the army!!!!!)
-*/
-function humanTimeFromUnixTime(unix_timestamp) {
-    var date = new Date(unix_timestamp * 1000),
-        adjust = timeZoneCode - timeZone,
-        hours = date.getHours() - adjust,
-        minutes = "0" + date.getMinutes();
-
-    if (hours > 12) {
-        hours -= 12;
-    } else if (hours === 0) {
-        hours = 12;
-    }
-
-    var formattedTime = hours + ':' + minutes.substr(-2);
-
-    return formattedTime;
 }
 
 /**
@@ -992,6 +1041,7 @@ function mapOptions() {
 */
 function buildMap(mapOptions, directionsOptions) {
     gmap = new google.maps.Map(document.getElementById('map'), mapOptions);
+
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer(directionsOptions);
     directionsDisplay.setMap(gmap);
@@ -1000,7 +1050,36 @@ function buildMap(mapOptions, directionsOptions) {
 }
 
 /**
-*   Builds Map routes options so i totally hang ten
+*   Sets custom icon...that's heavy, brah
+*/
+function makeMarker(position, icon, name) {
+    new google.maps.Marker({
+        position: position,
+        map: gmap,
+        icon: icon,
+        title: name
+    });
+}
+
+/**
+ *    Brah, if there is a dank ass error on directionsService or a transit
+ *    mode is not added, fallback to displaying the map bound by the two
+ *    bitchin' locations
+ */
+function directionsFallback(request, icons) {
+    var bounds = new google.maps.LatLngBounds();
+
+    makeMarker(request.origin, icons.start, officeName);
+    makeMarker(request.destination, icons.end, beachName);
+
+    bounds.extend(request.origin);
+    bounds.extend(request.destination);
+
+    gmap.fitBounds(bounds);
+}
+
+/**
+*   Builds Map routes options so i can totally hang ten
 *   Triggers routes build out
 */
 function routeOptions() {
@@ -1014,9 +1093,8 @@ function routeOptions() {
         },
         request = {
             origin: start,
-            destination: end,
-            travelMode: google.maps.TravelMode[transit]
-        },
+            destination: end
+        };
         icons = {
             start: {
                 url: officeIcon,
@@ -1034,12 +1112,19 @@ function routeOptions() {
             }
         };
 
-    buildRoute(request, icons);
+    if (!transit) {
+        directionsFallback(request, icons);
+    } else {
+        request.travelMode = google.maps.TravelMode[transit];
+
+        buildRoute(request, icons);
+    }
 }
 
 /**
 *   Builds Map routes, duh
 *   Triggers custom icon builds
+*   If directionsService fails (braaaah!!!!!), call fallback map
 */
 function buildRoute(request, icons) {
     directionsService.route(request, function(result, status) {
@@ -1048,61 +1133,13 @@ function buildRoute(request, icons) {
             makeMarker(request.origin, icons.start, officeName);
             makeMarker(request.destination, icons.end, beachName);
         } else {
-            console.log("couldn't get directions:" + status);
+            directionsFallback(request, icons);
         }
     });
 }
 
 /**
-*   Sets custom icon...that's heavy, brah
-*/
-function makeMarker(position, icon, name) {
-    new google.maps.Marker({
-        position: position,
-        map: gmap,
-        icon: icon,
-        title: name
-    });
-}
-
-// function map(latCoord, lonCoord) {
-//     var gmap,
-//         mapOptions = {
-//             disableDefaultUI: true,
-//             scrollwheel: false
-//         },
-//         beachLatLng = {
-//             lat: latCoord,
-//             lon: lonCoord
-//         };
-
-//     var gmap = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-//     var bounds = new google.maps.LatLngBounds();
-
-//      var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|ec008c")
-
-//     var markers = [
-//         ['https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', latCoord, lonCoord],
-//         [pinImage, officeLoc[beach].lat, officeLoc[beach].lon]
-//     ];
-
-//     for( i = 0; i < markers.length; i++ ) {
-//         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-
-//         bounds.extend(position);
-//         marker = new google.maps.Marker({
-//             position: position,
-//             map: gmap,
-//             icon: markers[i][0]
-//         });
-
-//         // Automatically center the map fitting all markers on the screen
-//         gmap.fitBounds(bounds);
-//     }
-
-/**
-*   Brah, where the ganr becomes reality
+*   Brah, where the gnar becomes reality
 */
 function shakaParticles() {
     jmParticleEngine.init('shred-the-gnar-canvas', window.innerWidth, window.innerHeight);
