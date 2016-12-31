@@ -1191,3 +1191,56 @@ function shakaParticles() {
 *   Inits gnarly beach cams and data brah
 */
 init();
+
+// officeLoc = [
+//         {
+//             name: 'Brooklyn',
+//             beachID: 4269,
+//             weatherID: 5125086,
+//             lat: 40.7028816,
+//             lon: -73.9926221,
+//             transit: 'BICYCLING',
+//             gnarMultiplyer: 1,
+//             videoLetterboxed: false
+//         },
+//         {
+//             name: 'Oceanside',
+//             beachID: 4789,
+//             weatherID: 5378771,
+//             lat: 34.0626624,
+//             lon: -118.3641838,
+//             transit: 'DRIVING',
+//             gnarMultiplyer: 2,
+//             videoLetterboxed: false
+//         },
+//         {
+//             name: 'Singapore',
+//             beachID: 7214,
+//             weatherID: 1642467,
+//             lat: 1.2807448,
+//             lon: 103.8437414,
+//             transit: 'DRIVING',
+//             gnarMultiplyer: 2,
+//             videoLetterboxed: false
+//         },
+//         {
+//             name: 'Pipeline',
+//             beachID: 131975,
+//             weatherID: 5852824,
+//             lat: 34.0626624,
+//             lon: -118.3641838,
+//             transit: false,
+//             gnarMultiplyer: 2,
+//             videoLetterboxed: false
+//         },
+//         {
+//             name: 'Portland',
+//             beachID: 5073,
+//             weatherID: 5742750,
+//             lat: 45.5190225,
+//             lon: -122.6664673,
+//             transit: 'DRIVING',
+//             gnarMultiplyer: 2.4,
+//             videoLetterboxed: false
+//         }
+//     ]
