@@ -415,7 +415,7 @@ function waveText(responseData, i) {
         surfPrint = surfMinimum + '-' + surfMaximum + ' ' + heightUnit
     }
 
-    if (surfMaximum === 1 && surfMinimum === 0) {
+    if (surfMaximum == '0' || surfMaximum == '1' && surfMinimum == '0') {
         surfPrint = '';
         surfText = "Flat";
     }
