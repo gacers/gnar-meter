@@ -447,7 +447,12 @@ function gnarMeterData(gnar) {
 
     document.getElementById('shred-location').innerHTML = officeName;
     document.getElementById('office-title').innerHTML = officeName + ' Office';
-    document.getElementById('beach-title').innerHTML = beachName;
+
+    if (beachName) {
+        document.querySelector('.map-title').className += ' activate-switch';
+
+        document.getElementById('beach-title').innerHTML = beachName;
+    }
 
     gnarMeter(gnar, gnarRates)
 }

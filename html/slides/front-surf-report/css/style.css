@@ -361,12 +361,12 @@ p {
     width: 100%;
 }
 
-#office-title {
+.activate-switch #office-title {
     animation: officeTitle 40s linear infinite;
     opacity: 1;
 }
 
-#beach-title {
+.activate-switch #beach-title {
     animation: beachTitle 40s linear infinite;
     opacity: 0;
 }
