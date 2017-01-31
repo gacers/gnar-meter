@@ -1,0 +1,136 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+html, body {
+  min-width: 100%;
+  height: 100% !important;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  color: #fff;
+  background: #121212;
+  overflow: hidden;
+  margin: 0;
+}
+#logo {
+  position: absolute;
+  width: 79px;
+  height: 31px;
+  background-image: url('../img/huge_logo.png');
+  z-index: 999;
+  top: 95px;
+  left: 95px;
+}
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.hide-cursor {
+  /*display: none;*/
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  cursor: none;
+  z-index: 100;
+}
+.screen-overlay,
+.nine-screens div {
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 999;
+}
+
+.screen-overlay:before,
+.screen-overlay:after,
+.nine-screens div:before,
+.nine-screens div:after {
+    background-color: #000;
+    content: '';
+    position: absolute;
+}
+
+.four-screens {
+  display: none;
+}
+
+.nine-screens {
+  display: none;
+}
+
+.four-screens:before {
+    height: 100vh;
+    left: 50%;
+    width: 8px;
+}
+
+.four-screens:after {
+    height: 10px;
+    top: 50%;
+    width: 100vw;
+}
+.nine-screens:before {
+    height: 100vh;
+    left: 33%;
+    width: 8px;
+}
+
+.nine-screens:after {
+    height: 100vh;
+    left: 66%;
+    width: 8px;
+}
+
+.nine-screens div:before {
+    height: 10px;
+    top: 33%;
+    width: 100vw;
+}
+
+.nine-screens div:after {
+    height: 10px;
+    top: 66%;
+    width: 100vw;
+}
+iframe {
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  transition: all 0.1s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.slide {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
+  will-change: top, opacity;
+}
+.vertical .slide {
+  /*height: 1080px;*/
+}
+.nextSlide {
+  z-index: 0;
+}
+.currentSlide {
+  top: 0;
+  z-index: 1;
+  transition: top 1s linear;
+}
+.currentSlide.hide {
+  top: -100vh;
+}
+
+/*<--------- H LOGOS WITH TEXT -------------> */
+
+#HheadText {
+  font-family: "HUGEAvantGardeBold";
+  font-size: 70px;
+}

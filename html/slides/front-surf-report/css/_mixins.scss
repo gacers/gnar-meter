@@ -1,0 +1,30 @@
+@mixin colors() {
+    $colors: (
+        (#00e6f0, #00ff00, #ffff00, #ff6800, #ff14ab),
+        (#9c3565, #e867a3, #ece080, #3ea4b5, #3d8e9c),
+        (#14a697, #f2c12e, #f29d35, #f27649, #f25756),
+        (#011c40, #0b758f, #f2e7ae, #f2c299, #f2a49b),
+        (#bcecfe, #fffce3, #ffebf6, #c3eedf, #c4d1e3),
+        (#80ffd1, #65cee8, #658eff, #8a65e8, #e86aff)
+    );
+
+    @each $current-array in $colors {
+        $i: index($colors, $current-array);
+
+        @keyframes flash#{$i} {
+            @each $color in $current-array {
+                $i: index($current-array, $color);
+
+                @if $i == 1 {
+                    0% {
+                        color: $color;
+                    }
+                } @else {
+                    #{(($i - 1)/(length($current-array) - 1)) * 100}% {
+                        color: $color;
+                    }
+                }
+            }
+        }
+    }
+}
