@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # osx noise
 .DS_Store
 profile
@@ -20,6 +19,3 @@ CVS
 
 #app
 public/js/app.js
-=======
-html/slides/front-surf-report/js/overwrites.js
->>>>>>> 1a8ed621e231d27a72cc0ab4ff028a694394fc83

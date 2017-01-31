@@ -1310,7 +1310,7 @@ var gnarly = (function() {
             domElements.VIDEO.style.display = 'block';
             domElements.PANEL.classList.add(REVEAL);
 
-            if (options.homeOfficeInfo[0].duration){
+            if (options.homeOfficeInfo[0].duration > 0){
                 startTimer();
             }
         }, 1500);
@@ -1646,10 +1646,6 @@ var gnarly = (function() {
         officeName = options.officeLoc[office].name;
         transit = selectedBeach.transit;
         videoLetterboxed = selectedBeach.videoLetterboxed;
-
-        if (options.homeOfficeInfo[0].duration) {
-            duration = options.homeOfficeInfo[0].duration;
-        }
 
         beachSet = true;
 
