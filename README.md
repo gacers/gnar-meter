@@ -12,7 +12,8 @@ This project tracks wave height and weather conditions at beaches near our offic
         /      /`
 
 
-_Installation_
+__Installation__
+
     * Run npm install from the project folder
     * Run npm start to launch server
     * http://localhost:3000
