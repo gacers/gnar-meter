@@ -265,7 +265,6 @@ var gnarly = (function() {
         locationDefaults = {
             homeOfficeInfo: [
                 {
-                    duration: 40000,
                     cycleBeaches: true,
                     measurements: 'english',
                     random: false
@@ -1309,10 +1308,6 @@ var gnarly = (function() {
             domElements.IMAGE_WRAPPER.classList.add(POSTER_HIDE);
             domElements.VIDEO.style.display = 'block';
             domElements.PANEL.classList.add(REVEAL);
-
-            if (options.homeOfficeInfo[0].duration > 0){
-                startTimer();
-            }
         }, 1500);
     }
 
@@ -1633,7 +1628,6 @@ var gnarly = (function() {
     *   Set those variables used to shred the gnar globally
     */
     function setGlobalVariables() {
-        duration = options.homeOfficeInfo[0].duration;
         beachIDs = options.officeLoc[office].beachID;
         selectedBeach = beachIDs[beach];
         selectedBeachID = beachIDs[beach].id;
