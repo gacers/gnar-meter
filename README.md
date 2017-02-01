@@ -11,6 +11,12 @@ This project tracks wave height and weather conditions at beaches near our offic
          )       /`
         /      /`
 
+
+_Installation_
+    * Run npm install from the project folder
+    * Run npm start to launch server
+    * http://localhost:3000
+
 In order to run this app, __create the file js/app.js__.  Below is an example of how to initialize the application within the __js/app.js__ file.
 
 Speak with __@gacers__ if you have any questions
