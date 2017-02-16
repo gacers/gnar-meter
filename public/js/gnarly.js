@@ -144,6 +144,10 @@
 *       gnarMeter()
 *       gnarMeterData()
 *       revealWaveData()
+*       printSurfText()
+*       setWaveText()
+*       formatWaveData()
+*       getNewWaveData()
 *       waveText()
 *       waveData()
 *       waveChart()
@@ -254,7 +258,6 @@ var gnarly = (function() {
         directionsDisplay,
         directionsService,
         DISABLED = 'disabled',
-        duration,
         file,
         forecastData,
         gmap,
@@ -381,10 +384,12 @@ var gnarly = (function() {
         surflineVar,
         surfMax,
         surfMaximum,
+        surfMinimum,
         tempUnit,
         timeZone,
         transit,
         videoLetterboxed,
+        waveIndex,
         weatherID;
 
     /**
@@ -536,28 +541,30 @@ var gnarly = (function() {
     }
 
     /**
-    *   Print the gnarliest of data and release the maximum surf value
-    *   Surfline bases their wave heights off of the surf_min and surf_max data.
-    *   Trigger the GNAAAAAAAAR!
-    */
-    function waveText(i) {
-        var surfGetText = forecastData.Analysis.surfText[0],
-            surfMinimum,
-            surfPrint,
-            surfText;
+     *    Let's print that wave data on the screen!!!!
+     *    Trigger the GNAAAAAAAAAAR!
+     */
+    function printSurfText(surfText, surfPrint) {
+        observ.observe(domElements.WAVE_HEIGHT_DATA, {childList: true, subtree: true});
 
-        if (measurements === styleOptions.metric) {
-            surfMaximum = Math.round(surfMax[i] * 10) / 10;
-            surfMinimum = Math.round(forecastData.Surf.surf_min[0][i] * 10) / 10;
-        } else {
-            surfMaximum = Math.round(surfMax[i]);
-            surfMinimum = Math.round(forecastData.Surf.surf_min[0][i]);
-        }
+        domElements.WAVE_HEIGHT_DATA.innerHTML = surfPrint + surfText;
+
+        gnarMeterData();
+    }
+
+    /**
+     *    Yoooo, like some times there is text and sometimes there's none.  Format
+     *    the wave text to give an overal gnarly experience to the viewres.
+     */
+    function setWaveText() {
+        var surfGetText = forecastData.Analysis.surfText[0],
+            surfText,
+            surfPrint;
 
         if (surfGetText) {
             surfText = ' - ' + surfGetText;
         } else {
-            surfText = surfGetText;
+            surfText = '';
         }
 
         if (surfMaximum === surfMinimum) {
@@ -566,20 +573,57 @@ var gnarly = (function() {
             surfPrint = surfMinimum + '-' + surfMaximum + ' ' + heightUnit
         }
 
-        if (surfMaximum == '0' || surfMaximum == '1' && surfMinimum == '0') {
-            surfPrint = '';
-            surfText = 'Flat';
-        }
-
         if (surfGetText == undefined) {
             surfText = '';
         }
 
-        observ.observe(domElements.WAVE_HEIGHT_DATA, {childList: true, subtree: true});
+        if (surfMaximum == 0 || surfMaximum == 1 && surfMinimum == 0) {
+            surfPrint = ' ';
+            surfText = 'Flat';
+        }
 
-        domElements.WAVE_HEIGHT_DATA.innerHTML = surfPrint + surfText;
+        printSurfText(surfText, surfPrint)
+    }
 
-        gnarMeterData();
+    /**
+     *    Yo brah, some radical duders totally like celcius.  Let's make them feel
+     *    totally included.
+     */
+    function formatWaveData(surfMaximumData, surfMinimumData) {
+        if (measurements === styleOptions.metric) {
+            surfMaximum = Math.round(surfMaximumData * 10) / 10;
+            surfMinimum = Math.round(surfMinimumData * 10) / 10;
+        } else {
+            surfMaximum = Math.round(surfMaximumData);
+            surfMinimum = Math.round(surfMinimumData);
+        }
+
+        setWaveText();
+    }
+
+    /**
+     *    If the human data is totally empty, grab from the array;
+     */
+    function getNewWaveData() {
+        var surfMaximumData = surfMax[waveIndex],
+            surfMinimumData = forecastData.Surf.surf_min[0][waveIndex];
+
+        formatWaveData(surfMaximumData, surfMinimumData);
+    }
+
+    /**
+    *   Get the gnarly wave heights.  Human version works best, but if empty, grab
+    *   from the surf_min/surf_max arrays
+    */
+    function waveText() {
+        var surfMaximumData = forecastData.Analysis.surfMax[0],
+            surfMinimumData = forecastData.Analysis.surfMin[0];
+
+        if (isNaN(surfMaximumData)) {
+            getNewWaveData();
+        } else {
+            formatWaveData(surfMaximumData, surfMinimumData);
+        }
     }
 
     /**
@@ -592,8 +636,7 @@ var gnarly = (function() {
             currentHour = date.getHours() * 100,
             schedule = forecastData.Surf.periodSchedule[0],
             hourGreaterThan = false,
-            waveDataPoints = [],
-            waveIndex;
+            waveDataPoints = [];
 
         for (var i = 0; i < schedule.length; i++) {
             if (currentHour >= schedule[i]) {
@@ -603,7 +646,7 @@ var gnarly = (function() {
 
         waveIndex = waveDataPoints.length - 1;
 
-        waveText(waveIndex);
+        waveText();
     }
 
     /**
@@ -1292,12 +1335,6 @@ var gnarly = (function() {
         }, 2000);
     }
 
-    function startTimer() {
-        setTimeout(function(){
-            nextBeach();
-        }, duration);
-    }
-
     /**
      *    The video has been released!!! Let's hide that lame poster and release
      *    the motion of the ocean upon our surfer brothers!
@@ -1541,8 +1578,8 @@ var gnarly = (function() {
     function setCameraLimits(baseZone, date, sunrise, sunset) {
         var baseTime = editTime(moment().tz(timeZone).format().split('T')[1]),
             currentTime =  moment(editTime(moment().tz(timeZone).format().split('T')[1]), 'hh:mm'),
-            sunRiseLimit = moment(editTime(setTimeZone(moment.tz(date + ' ' + sunrise, baseZone).subtract(20, 'm')).split('T')[1]), 'hh:mm'),
-            sunSetLimit = moment(editTime(setTimeZone(moment.tz(date + ' ' + sunset, baseZone).add(35, 'm')).split('T')[1]), 'hh:mm');
+            sunRiseLimit = moment(editTime(setTimeZone(moment.tz(date + ' ' + sunrise, baseZone).subtract(15, 'm')).split('T')[1]), 'hh:mm'),
+            sunSetLimit = moment(editTime(setTimeZone(moment.tz(date + ' ' + sunset, baseZone).add(30, 'm')).split('T')[1]), 'hh:mm');
 
         sunDown = currentTime.diff(sunSetLimit, 'm');
         sunUp = currentTime.diff(sunRiseLimit, 'm');
@@ -1640,6 +1677,10 @@ var gnarly = (function() {
         officeName = options.officeLoc[office].name;
         transit = selectedBeach.transit;
         videoLetterboxed = selectedBeach.videoLetterboxed;
+
+        if (multiplyer == undefined) {
+            multiplyer = 1;
+        }
 
         beachSet = true;
 
