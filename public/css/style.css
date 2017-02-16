@@ -12,6 +12,11 @@ body {
     width: 100%;
 }
 
+body,
+.container {
+    position: relative;
+}
+
 body.shred {
     animation: rattle 0.3s linear infinite 0.75s;
 }
@@ -390,6 +395,12 @@ a[title~=Google] {
     width: 15vw !important; /* override js added width */
 }
 
+@media (max-width: 1700px) {
+    .gnarChart {
+        width: 19vw !important;
+    }
+}
+
 /**
  *
  *
@@ -453,6 +464,16 @@ a[title~=Google] {
 @media (max-width: 980px) {
     .shaka-meter li {
         margin-left: 6%;
+    }
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 
@@ -634,6 +655,7 @@ a[title~=Google] {
         opacity: 0;
     }
 }
+
 
 @keyframes beachTitle {
     0%, 48% {
